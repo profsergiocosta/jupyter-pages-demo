@@ -459,6 +459,13 @@
 
 
 
+<pre><code class="language-python">import netCDF4 as nc
+</code></pre>
+<pre><code class="language-python">fn = '../data/rasters/LUCCMEBR_land_cover_type_100km2_2000.nc'
+ds = nc.Dataset(fn)
+</code></pre>
+<pre><code class="language-python">print(ds)
+</code></pre>
 <pre><code>&lt;class 'netCDF4._netCDF4.Dataset'&gt;
 root group (NETCDF3_CLASSIC data model, file format NETCDF3):
     CDI: Climate Data Interface version 1.9.2 (http://mpimet.mpg.de/cdi)
@@ -472,14 +479,18 @@ root group (NETCDF3_CLASSIC data model, file format NETCDF3):
     dimensions(sizes): time(1), lon(554), lat(469)
     variables(dimensions): float64 time(time), float64 lon(lon), float64 lat(lat), int32 crs(), float64 veg(time, lat, lon), float64 gveg(time, lat, lon), float64 pastp(time, lat, lon), float64 agric(time, lat, lon), float64 mosc(time, lat, lon), float64 fores(time, lat, lon), float64 others(time, lat, lon)
     groups:
-
-
-&lt;class 'netCDF4._netCDF4.Dimension'&gt; (unlimited): name = 'time', size = 1
+</code></pre>
+<pre><code class="language-python">for dim in ds.dimensions.values():
+    print(dim)
+</code></pre>
+<pre><code>&lt;class 'netCDF4._netCDF4.Dimension'&gt; (unlimited): name = 'time', size = 1
 &lt;class 'netCDF4._netCDF4.Dimension'&gt;: name = 'lon', size = 554
 &lt;class 'netCDF4._netCDF4.Dimension'&gt;: name = 'lat', size = 469
-
-
-&lt;class 'netCDF4._netCDF4.Variable'&gt;
+</code></pre>
+<pre><code class="language-python">for var in ds.variables.values():
+    print(var)
+</code></pre>
+<pre><code>&lt;class 'netCDF4._netCDF4.Variable'&gt;
 float64 time(time)
     standard_name: time
     units: years since 2000-1-1 00:00:00
@@ -588,9 +599,10 @@ float64 others(time, lat, lon)
 unlimited dimensions: time
 current shape = (1, 469, 554)
 filling on
-
-
-[0.]
+</code></pre>
+<pre><code class="language-python">print (ds['time'][:])
+</code></pre>
+<pre><code>[0.]
 </code></pre>
 <p>https://opensourceoptions.com/blog/intro-to-netcdf-with-python-netcdf4/</p>
 

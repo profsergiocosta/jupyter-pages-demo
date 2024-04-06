@@ -459,6 +459,26 @@
 
 
 
+<pre><code class="language-python">import os
+
+import pandas as pd
+import numpy as np
+import netCDF4 as nc
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">CSV_URL = 'https://dados_abertos:dados_abertos@queimadas.dgi.inpe.br/queimadas/users/dados_abertos/focos/Diario/focos_abertos_24h_20220827.csv'
+</code></pre>
+<pre><code class="language-python">lonW = -73.99 # Longitude Oeste.
+lonE = -33.86 # Longitude Leste.
+latS = -28.63 # Latitude Sul.
+latN = 5.29   # Latitude Norte.
+dgrad = .25   # Resolução do píxel.
+</code></pre>
+<pre><code class="language-python">df = pd.read_csv(&quot;/content/focos_abertos_24h_20220827.csv&quot;, parse_dates=['data_hora_gmt'])
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
 <div id="df-71e8b0cc-b628-4480-9212-85e6d06ba74b">
     <div class="colab-df-container">
       <div>
@@ -799,6 +819,8 @@
     </div>
   </div>
 
+<pre><code class="language-python">df.head()
+</code></pre>
 <div id="df-31394ed3-5b3a-4116-9c45-94123cf08765">
     <div class="colab-df-container">
       <div>
@@ -1018,6 +1040,8 @@
     </div>
   </div>
 
+<pre><code class="language-python">df.describe()
+</code></pre>
 <div id="df-cda0849d-6b4e-4a43-874a-c576c0d5f919">
     <div class="colab-df-container">
       <div>
@@ -1225,24 +1249,38 @@
     </div>
   </div>
 
+<pre><code class="language-python">lat_col = 'lat'
+lon_col = 'lon'
+time_col = 'data_hora_gmt'
+</code></pre>
+<pre><code class="language-python">filter_ = (df[lat_col] &lt; latN) &amp; (df[lat_col] &gt; latS) &amp; (df[lon_col] &lt; lonE) &amp; (df[lon_col] &gt; lonW)
+</code></pre>
+<pre><code class="language-python">focos = df[filter_][[time_col, lat_col, lon_col]].values
+</code></pre>
+<pre><code class="language-python">focos.shape
+</code></pre>
 <pre><code>(50078, 3)
-
-
-
-
-
-
-array([[Timestamp('2022-08-27 00:02:35'), -27.64, -61.3],
+</code></pre>
+<pre><code class="language-python">focos
+</code></pre>
+<pre><code>array([[Timestamp('2022-08-27 00:02:35'), -27.64, -61.3],
        [Timestamp('2022-08-27 00:02:38'), -27.29, -61.52],
        [Timestamp('2022-08-27 00:02:39'), -26.91, -60.72],
        ...,
        [Timestamp('2022-08-27 23:55:07'), -3.34, -50.44],
        [Timestamp('2022-08-27 23:55:07'), -3.28, -52.62],
        [Timestamp('2022-08-27 23:55:56'), 3.96, -71.99]], dtype=object)
+</code></pre>
+<pre><code class="language-python">units = 'days since 1970-01-01'
+</code></pre>
+<pre><code class="language-python">def transform_time(time, units):
+    times = pd.Series(time).dt.floor('d').astype(pd.datetime) # Trunca as datas para pegar apenas o dia em questão
+    times = nc.date2num(times, units, calendar='standard')
+    return times
 
-
-
-/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:2: FutureWarning: The pandas.datetime class is deprecated and will be removed from pandas in a future version. Import from datetime module instead.
+focos.T[0] = np.apply_along_axis(transform_time, 0, focos.T[0], units)
+</code></pre>
+<pre><code>/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:2: FutureWarning: The pandas.datetime class is deprecated and will be removed from pandas in a future version. Import from datetime module instead.
 
 
 

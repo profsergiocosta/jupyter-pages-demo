@@ -468,6 +468,12 @@
 
 
 
+<pre><code class="language-python">import geopandas as gpd
+import mapclassify
+</code></pre>
+<pre><code class="language-python">ma = gpd.read_file(&quot;../data/MA_Municipios_2022.zip&quot;)
+ma
+</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -587,6 +593,8 @@
 <p>217 rows × 5 columns</p>
 </div>
 
+<pre><code class="language-python">mapclassify.EqualInterval(ma['AREA_KM2'], k=5)
+</code></pre>
 <pre><code>EqualInterval
 
       Interval         Count
@@ -596,13 +604,10 @@
 ( 5303.99,  7916.38] |     5
 ( 7916.38, 10528.77] |     3
 (10528.77, 13141.16] |     2
-
-
-
-
-
-
-Quantiles
+</code></pre>
+<pre><code class="language-python">mapclassify.Quantiles(ma['AREA_KM2'], k=5)
+</code></pre>
+<pre><code>Quantiles
 
       Interval         Count
 ----------------------------
@@ -611,13 +616,10 @@ Quantiles
 (  743.53,  1166.17] |    43
 ( 1166.17,  1928.88] |    43
 ( 1928.88, 13141.16] |    44
-
-
-
-
-
-
-JenksCaspall
+</code></pre>
+<pre><code class="language-python">mapclassify.JenksCaspall(ma['AREA_KM2'], k=5)
+</code></pre>
+<pre><code>JenksCaspall
 
       Interval         Count
 ----------------------------
@@ -628,6 +630,8 @@ JenksCaspall
 ( 4837.17, 13141.16] |    13
 </code></pre>
 <p>o natural breaks é mais proximo desse aqui</p>
+<pre><code class="language-python">mapclassify.FisherJenks(ma['AREA_KM2'], k=5)
+</code></pre>
 <pre><code>FisherJenks
 
       Interval         Count
@@ -637,13 +641,11 @@ JenksCaspall
 ( 2720.27,  5201.93] |    16
 ( 5201.93,  8861.72] |     8
 ( 8861.72, 13141.16] |     2
-
-
-
-
-
-
-FisherJenks
+</code></pre>
+<pre><code class="language-python">cl = mapclassify.FisherJenks(ma['AREA_KM2'], k=5)
+cl
+</code></pre>
+<pre><code>FisherJenks
 
       Interval         Count
 ----------------------------
@@ -652,13 +654,20 @@ FisherJenks
 ( 2720.27,  5201.93] |    16
 ( 5201.93,  8861.72] |     8
 ( 8861.72, 13141.16] |     2
-
-
-
-
-
-
-mapclassify.classifiers.FisherJenks
+</code></pre>
+<pre><code class="language-python">type(cl)
+</code></pre>
+<pre><code>mapclassify.classifiers.FisherJenks
+</code></pre>
+<pre><code class="language-python">ax = ma.plot(
+    column=&quot;AREA_KM2&quot;,  # Data to plot
+    scheme=&quot;naturalbreaks&quot;,  # Classification scheme
+    cmap=&quot;YlGn&quot;,  # Color palette
+    legend=True,  # Add legend
+   legend_kwds={&quot;fmt&quot;: &quot;{:.0f}&quot;},  # Remove decimals in legend
+    figsize=(10,100)
+)
+ax.set_axis_off();
 </code></pre>
 <p><img alt="png" src="../choropleth_maps_mapclassify_files/choropleth_maps_mapclassify_9_0.png" /></p>
 <h1 id="referencias">Referências</h1>

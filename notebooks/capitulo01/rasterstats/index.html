@@ -468,6 +468,12 @@
 
 
 
+<pre><code class="language-python">from rasterstats import zonal_stats, gen_zonal_stats
+import matplotlib.pyplot as plt
+import geopandas as gpd
+</code></pre>
+<pre><code class="language-python">help(gen_zonal_stats)
+</code></pre>
 <pre><code>Help on function gen_zonal_stats in module rasterstats.main:
 
 gen_zonal_stats(vectors, raster, layer=0, band=1, nodata=None, affine=None, stats=None, all_touched=False, categorical=False, category_map=None, add_stats=None, zone_func=None, raster_out=False, prefix=None, geojson_out=False, boundless=True, **kwargs)
@@ -549,6 +555,9 @@ gen_zonal_stats(vectors, raster, layer=0, band=1, nodata=None, affine=None, stat
 
     generator of geojson features (if geojson_out is True)
         GeoJSON-like Feature as python dict
+</code></pre>
+<pre><code class="language-python">gdf = gpd.read_file(&quot;../../data/vectors/amazonia_grid.zip&quot;)
+gdf
 </code></pre>
 <div>
 <style scoped>
@@ -717,6 +726,9 @@ gen_zonal_stats(vectors, raster, layer=0, band=1, nodata=None, affine=None, stat
 <p>18942 rows × 9 columns</p>
 </div>
 
+<pre><code class="language-python">import rioxarray
+
+</code></pre>
 <pre><code>---------------------------------------------------------------------------
 
 ModuleNotFoundError                       Traceback (most recent call last)
@@ -726,6 +738,10 @@ Cell In[4], line 1
 
 
 ModuleNotFoundError: No module named 'rioxarray'
+</code></pre>
+<pre><code class="language-python">surface = rioxarray.open_rasterio('zip://../data/tiffs/amazoniaveg.zip')
+</code></pre>
+<pre><code class="language-python">surface
 </code></pre>
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -1161,16 +1177,37 @@ Attributes:
         8900581.425815314],
       dtype=&#x27;float64&#x27;, name=&#x27;y&#x27;, length=160))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1654cc78-0bcc-4f60-8034-9743a60f1a9e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-1654cc78-0bcc-4f60-8034-9743a60f1a9e' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>AREA_OR_POINT :</span></dt><dd>Area</dd><dt><span>_FillValue :</span></dt><dd>9.969209968386869e+36</dd><dt><span>scale_factor :</span></dt><dd>1.0</dd><dt><span>add_offset :</span></dt><dd>0.0</dd></dl></div></li></ul></div></div>
 
+<pre><code class="language-python">import pandas as pd
+import matplotlib.pyplot as plt
+
+
+
+# Cria uma figura e uma grade de subplots (1 linha, 2 colunas)
+fig, axs = plt.subplots(1, figsize=(10, 4))
+
+aa = gdf.plot(ax=axs)
+
+print (aa)
+
+</code></pre>
 <pre><code>Axes(0.292452,0.11;0.440096x0.77)
 </code></pre>
 <p><img alt="png" src="../rasterstats_files/rasterstats_6_1.png" /></p>
+<pre><code class="language-python">import time
+</code></pre>
+<pre><code class="language-python">inicio = time.time()
+stats = zonal_stats (gdf, &quot;zip://../data/rasters/amazoniaveg.zip&quot;, stats=&quot;mean&quot;)
+fim = time.time()
+
+# Calcula e imprime o tempo de execução
+tempo_execucao = fim - inicio
+print(f'Tempo de execução: {tempo_execucao} segundos')
+</code></pre>
 <pre><code>Tempo de execução: 116.39122653007507 segundos
-
-
-
-
-
-[None,
+</code></pre>
+<pre><code class="language-python">[f['mean'] for f in stats]
+</code></pre>
+<pre><code>[None,
  None,
  None,
  0.0,
@@ -2171,15 +2208,18 @@ Attributes:
  0.985,
  1.0,
  ...]
-
-
-
-
-
-
-&lt;Axes: &gt;
+</code></pre>
+<pre><code class="language-python">gdf[&quot;mean_value&quot;] = [feature[&quot;mean&quot;] for feature in stats]
+</code></pre>
+<pre><code class="language-python">gdf.plot(column='mean_value', cmap='viridis', legend=True, figsize=(10, 10))
+</code></pre>
+<pre><code>&lt;Axes: &gt;
 </code></pre>
 <p><img alt="png" src="../rasterstats_files/rasterstats_11_1.png" /></p>
+<pre><code class="language-python">#gdf.to_file('saida.shp') ## salvando
+</code></pre>
+<pre><code class="language-python">stats
+</code></pre>
 <pre><code>[{'mean': None},
  {'mean': None},
  {'mean': None},
@@ -3183,6 +3223,9 @@ Attributes:
  ...]
 </code></pre>
 <h1 id="calculando-centroides">Calculando centroides</h1>
+<pre><code class="language-python">gt_polygons = gpd.read_file(&quot;../data/vectors/countries_clean.gpkg&quot;)
+gt_polygons
+</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -3266,11 +3309,29 @@ Attributes:
 <p>160 rows × 2 columns</p>
 </div>
 
+<pre><code class="language-python">gt_polygons[&quot;centroid&quot;] = gt_polygons.geometry.centroid
+</code></pre>
+<pre><code class="language-python">ax = gt_polygons.set_geometry(&quot;centroid&quot;).plot(&quot;ADMIN&quot;, markersize=5)
+</code></pre>
 <p><img alt="png" src="../rasterstats_files/rasterstats_17_0.png" /></p>
+<pre><code class="language-python">
+# Cria uma figura e uma grade de subplots (1 linha, 2 colunas)
+fig, ax = plt.subplots(1, figsize=(10, 4))
+</code></pre>
 <p><img alt="png" src="../rasterstats_files/rasterstats_18_0.png" /></p>
+<pre><code class="language-python">
+aa = gt_polygons.plot(ax=ax)
+
+</code></pre>
 <pre><code>&lt;Figure size 640x480 with 0 Axes&gt;
 </code></pre>
+<pre><code class="language-python">fig, ax = plt.subplots(1, figsize=(10, 4))
+aa = gt_polygons.plot(ax=ax)
+
+</code></pre>
 <p><img alt="png" src="../rasterstats_files/rasterstats_20_0.png" /></p>
+<pre><code class="language-python">
+</code></pre>
 
 
 

@@ -536,6 +536,19 @@
 
   <h1>Gameoflife</h1>
 
+<pre><code class="language-python">import geopandas
+import seaborn
+import pandas
+import numpy
+import matplotlib.pyplot as plt
+from shapely.geometry import Polygon
+
+
+</code></pre>
+<pre><code class="language-python">!pip install contextily
+!pip install rioxarray
+!pip install pysal
+</code></pre>
 <pre><code>Collecting contextily
   Downloading contextily-1.5.0-py3-none-any.whl (17 kB)
 Requirement already satisfied: geopy in /usr/local/lib/python3.10/dist-packages (from contextily) (2.3.0)
@@ -722,9 +735,39 @@ Successfully built spint spvcm
 Installing collected packages: simplejson, rtree, pulp, deprecation, quantecon, rasterstats, mapclassify, libpysal, access, tobler, spreg, segregation, pointpats, momepy, inequality, esda, spvcm, spglm, spaghetti, giddy, spopt, splot, spint, mgwr, pysal
 Successfully installed access-1.1.9 deprecation-2.1.0 esda-2.5.1 giddy-2.3.5 inequality-1.0.1 libpysal-4.9.2 mapclassify-2.6.1 mgwr-2.2.1 momepy-0.7.0 pointpats-2.4.0 pulp-2.8.0 pysal-24.1 quantecon-0.7.1 rasterstats-0.19.0 rtree-1.2.0 segregation-2.5 simplejson-3.19.2 spaghetti-1.7.5.post1 spglm-1.1.0 spint-1.0.7 splot-1.1.5.post1 spopt-0.6.0 spreg-1.4.2 spvcm-0.3.0 tobler-0.11.2
 </code></pre>
+<pre><code class="language-python">from pysal.lib import cg as geometry
+import rioxarray
+import contextily
+
+</code></pre>
 <h2 id="spatial-weights">Spatial weights</h2>
+<pre><code class="language-python">from pysal.lib import weights
+</code></pre>
 <h3 id="contiguity-weights">Contiguity weights</h3>
 <p>Criando poligonos</p>
+<pre><code class="language-python"># Get points in a grid
+n = 20
+l = numpy.arange(n)
+xs, ys = numpy.meshgrid(l, l)
+# Set up store
+polys = []
+# Generate polygons
+for x, y in zip(xs.flatten(), ys.flatten()):
+    poly = Polygon([(x, y), (x + 1, y), (x + 1, y + 1), (x, y + 1)])
+    polys.append(poly)
+# Convert to GeoSeries
+polys = geopandas.GeoSeries(polys)
+gdf = geopandas.GeoDataFrame(
+    {
+        &quot;geometry&quot;: polys,
+        #&quot;id&quot;: [str(i).zfill(2) +str(j).zfill(2) for i in range(n) for j in range(n)],
+        &quot;id&quot;:[str(j).zfill(2) +str(i).zfill(2) for i in range(n-1,-1,-1) for j in range(n)],
+        &quot;past_value&quot;: 0,
+        &quot;present_value&quot;: 0,
+    }
+)
+gdf
+</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -832,14 +875,13 @@ Successfully installed access-1.1.9 deprecation-2.1.0 esda-2.5.1 giddy-2.3.5 ine
 <p>400 rows × 4 columns</p>
 </div>
 
+<pre><code class="language-python">[str(j).zfill(2) +str(i).zfill(2) for i in range(3,0,-1) for j in range(3)]
+</code></pre>
 <pre><code>['0003', '0103', '0203', '0002', '0102', '0202', '0001', '0101', '0201']
-
-
-
-
-
-
-0      POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....
+</code></pre>
+<pre><code class="language-python">polys
+</code></pre>
+<pre><code>0      POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....
 1      POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....
 2      POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....
 3      POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....
@@ -851,6 +893,9 @@ Successfully installed access-1.1.9 deprecation-2.1.0 esda-2.5.1 giddy-2.3.5 ine
 398    POLYGON ((18.00000 19.00000, 19.00000 19.00000...
 399    POLYGON ((19.00000 19.00000, 20.00000 19.00000...
 Length: 400, dtype: geometry
+</code></pre>
+<pre><code class="language-python">gdf.set_index(['id'], inplace=True)
+gdf
 </code></pre>
 <div>
 <style scoped>
@@ -953,9 +998,30 @@ Length: 400, dtype: geometry
 <p>400 rows × 3 columns</p>
 </div>
 
+<pre><code class="language-python">def insert_glider(gdf, start_x, start_y):
+    glider_pattern = [
+        [0, 1, 0],
+        [0, 0, 1],
+        [1, 1, 1]
+    ]
+
+    for i in range(3):
+        for j in range(3):
+            idx = str(start_x+j).zfill(2)+str(start_y+i).zfill(2)
+            gdf.loc[idx, 'past_value'] = glider_pattern[i][j]
+
+</code></pre>
+<pre><code class="language-python">gdf['past_value'] = 0
+insert_glider(gdf,5,5)
+
+</code></pre>
+<pre><code class="language-python">gdf.plot(facecolor=&quot;w&quot;, edgecolor=&quot;k&quot;, column='past_value', cmap='RdYlBu')
+</code></pre>
 <pre><code>&lt;Axes: &gt;
 </code></pre>
 <p><img alt="png" src="../gameoflife_files/gameoflife_13_1.png" /></p>
+<pre><code class="language-python">gdf
+</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1070,6 +1136,9 @@ Length: 400, dtype: geometry
 <p>402 rows × 4 columns</p>
 </div>
 
+<pre><code class="language-python">gdf['geometry']
+
+</code></pre>
 <pre><code>id
 0019    POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....
 0119    POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....
@@ -1083,21 +1152,27 @@ Length: 400, dtype: geometry
 33                                                   None
 0                                                    None
 Name: geometry, Length: 402, dtype: geometry
+</code></pre>
+<pre><code class="language-python">wr = weights.contiguity.Queen.from_dataframe(gdf, use_index=True)
+</code></pre>
+<pre><code class="language-python">ax = gdf.plot(facecolor=&quot;w&quot;, edgecolor=&quot;k&quot;)
+wr.plot(gdf, ax=ax)
 
-
-
-
-
-
-(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;Axes: &gt;)
+</code></pre>
+<pre><code>(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;Axes: &gt;)
 </code></pre>
 <p><img alt="png" src="../gameoflife_files/gameoflife_17_1.png" /></p>
 <p>Veja em https://pysal.org/notebooks/lib/libpysal/weights.html</p>
+<pre><code class="language-python">wr.n
+</code></pre>
 <pre><code>400
-
-
-
-0000 ['0101', '0100', '0001']
+</code></pre>
+<pre><code class="language-python">for i in range(n):
+        for j in range(n):
+          idx = str(i).zfill(2) + str(i).zfill(2)
+          print (idx, wr.neighbors[idx])
+</code></pre>
+<pre><code>0000 ['0101', '0100', '0001']
 0000 ['0101', '0100', '0001']
 0000 ['0101', '0100', '0001']
 0000 ['0101', '0100', '0001']
@@ -1497,28 +1572,59 @@ Name: geometry, Length: 402, dtype: geometry
 1919 ['1819', '1918', '1818']
 1919 ['1819', '1918', '1818']
 1919 ['1819', '1918', '1818']
+</code></pre>
+<pre><code class="language-python">wr.histogram
+</code></pre>
+<pre><code>[(3, 4), (4, 0), (5, 72), (6, 0), (7, 0), (8, 324)]
+</code></pre>
+<pre><code class="language-python">gdf.loc[['0605', '0706']].past_value.sum()
+</code></pre>
+<pre><code>2
+</code></pre>
+<pre><code class="language-python">def count_lives(gdf, neighs):
+  return gdf.loc[neighs].past_value.sum()
+</code></pre>
+<pre><code class="language-python">gdf.loc[&quot;0001&quot;].past_value
+</code></pre>
+<pre><code>0
+</code></pre>
+<pre><code class="language-python">def rule (idx):
+  value = gdf.loc[idx].past_value
+  count = count_lives(gdf, wr.neighbors[idx])
+  if value == 1:
+    if count &lt; 2 or count &gt; 3:
+      return 0
+    else:
+      return 1
+  else:
+    if count == 3:
+      return 1
+    else:
+      return 0
 
-
-
-
-
-[(3, 4), (4, 0), (5, 72), (6, 0), (7, 0), (8, 324)]
-
-
-
-
-
-
-2
-
-
-
-
-
-
-0
+</code></pre>
+<pre><code class="language-python">def start(gdf):
+  gdf['past_value'] = 0
+  insert_glider(gdf,5,5)
+</code></pre>
+<pre><code class="language-python">def syncronize(gdf):
+  gdf[&quot;past_value&quot;] = gdf[&quot;present_value&quot;]
+</code></pre>
+<pre><code class="language-python">def run (gdf):
+  gdf[&quot;present_value&quot;] = gdf.index.map(rule)
+</code></pre>
+<pre><code class="language-python">def plota(gdf):
+  gdf.plot(facecolor=&quot;w&quot;, edgecolor=&quot;k&quot;, column='past_value', cmap='RdYlBu')
+</code></pre>
+<pre><code class="language-python">start(gdf)
+plota(gdf)
 </code></pre>
 <p><img alt="png" src="../gameoflife_files/gameoflife_30_0.png" /></p>
+<pre><code class="language-python">for i in range(10):
+  run(gdf)
+  syncronize(gdf)
+  plota(gdf)
+</code></pre>
 <p><img alt="png" src="../gameoflife_files/gameoflife_31_0.png" /></p>
 <p><img alt="png" src="../gameoflife_files/gameoflife_31_1.png" /></p>
 <p><img alt="png" src="../gameoflife_files/gameoflife_31_2.png" /></p>
