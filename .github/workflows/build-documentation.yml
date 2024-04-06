@@ -19,5 +19,6 @@ jobs:
       - name: Publish Jupyter Notebooks as Github pages
         uses: dada-public/jupyter-to-pages@v1
         with:
+          show-cells: true
           source: src/notebooks
           dependencies: requirements.txt
