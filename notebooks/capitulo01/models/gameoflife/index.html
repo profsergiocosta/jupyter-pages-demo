@@ -1,0 +1,1576 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../rasterstats/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Gameoflife - Jupyter to Github pages action demo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spatial-weights" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Jupyter to Github pages action demo" class="md-header__button md-logo" aria-label="Jupyter to Github pages action demo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jupyter to Github pages action demo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gameoflife
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Jupyter to Github pages action demo" class="md-nav__button md-logo" aria-label="Jupyter to Github pages action demo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Jupyter to Github pages action demo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../teste3/" class="md-nav__link">
+        teste 3
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Notebooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Notebooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Notebooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebook-example/" class="md-nav__link">
+        Example
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../teste/" class="md-nav__link">
+        teste 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Capitulo01
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Capitulo01" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Capitulo01
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../choropleth_maps_mapclassify/" class="md-nav__link">
+        Choropleth maps mapclassify
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examplo_xarray/" class="md-nav__link">
+        Examplo xarray
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exemplo_netcdf/" class="md-nav__link">
+        Exemplo netcdf
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exemplos_queimadas_netcdf/" class="md-nav__link">
+        Exemplos queimadas netcdf
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rasterstats/" class="md-nav__link">
+        Rasterstats
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_6" type="checkbox" id="__nav_3_3_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3_6">
+          Models
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Models" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Models
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Gameoflife
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Gameoflife
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-weights" class="md-nav__link">
+    Spatial weights
+  </a>
+  
+    <nav class="md-nav" aria-label="Spatial weights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contiguity-weights" class="md-nav__link">
+    Contiguity weights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-weights" class="md-nav__link">
+    Spatial weights
+  </a>
+  
+    <nav class="md-nav" aria-label="Spatial weights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contiguity-weights" class="md-nav__link">
+    Contiguity weights
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Gameoflife</h1>
+
+<pre><code>Collecting contextily
+  Downloading contextily-1.5.0-py3-none-any.whl (17 kB)
+Requirement already satisfied: geopy in /usr/local/lib/python3.10/dist-packages (from contextily) (2.3.0)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.10/dist-packages (from contextily) (3.7.1)
+Collecting mercantile (from contextily)
+  Downloading mercantile-1.2.1-py3-none-any.whl (14 kB)
+Requirement already satisfied: pillow in /usr/local/lib/python3.10/dist-packages (from contextily) (9.4.0)
+Collecting rasterio (from contextily)
+  Downloading rasterio-1.3.9-cp310-cp310-manylinux2014_x86_64.whl (20.6 MB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m20.6/20.6 MB[0m [31m37.6 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (from contextily) (2.31.0)
+Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from contextily) (1.3.2)
+Requirement already satisfied: xyzservices in /usr/local/lib/python3.10/dist-packages (from contextily) (2023.10.1)
+Requirement already satisfied: geographiclib&lt;3,&gt;=1.52 in /usr/local/lib/python3.10/dist-packages (from geopy-&gt;contextily) (2.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (4.49.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (1.4.5)
+Requirement already satisfied: numpy&gt;=1.20 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (1.25.2)
+Requirement already satisfied: packaging&gt;=20.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (23.2)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (3.1.1)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;contextily) (2.8.2)
+Requirement already satisfied: click&gt;=3.0 in /usr/local/lib/python3.10/dist-packages (from mercantile-&gt;contextily) (8.1.7)
+Collecting affine (from rasterio-&gt;contextily)
+  Downloading affine-2.4.0-py3-none-any.whl (15 kB)
+Requirement already satisfied: attrs in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;contextily) (23.2.0)
+Requirement already satisfied: certifi in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;contextily) (2024.2.2)
+Requirement already satisfied: cligj&gt;=0.5 in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;contextily) (0.7.2)
+Collecting snuggs&gt;=1.4.1 (from rasterio-&gt;contextily)
+  Downloading snuggs-1.4.7-py3-none-any.whl (5.4 kB)
+Requirement already satisfied: click-plugins in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;contextily) (1.1.1)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;contextily) (67.7.2)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;contextily) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;contextily) (3.6)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;contextily) (2.0.7)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil&gt;=2.7-&gt;matplotlib-&gt;contextily) (1.16.0)
+Installing collected packages: snuggs, mercantile, affine, rasterio, contextily
+Successfully installed affine-2.4.0 contextily-1.5.0 mercantile-1.2.1 rasterio-1.3.9 snuggs-1.4.7
+Collecting rioxarray
+  Downloading rioxarray-0.15.1-py3-none-any.whl (53 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m53.7/53.7 kB[0m [31m1.0 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: packaging in /usr/local/lib/python3.10/dist-packages (from rioxarray) (23.2)
+Requirement already satisfied: rasterio&gt;=1.3 in /usr/local/lib/python3.10/dist-packages (from rioxarray) (1.3.9)
+Requirement already satisfied: xarray&gt;=2022.3.0 in /usr/local/lib/python3.10/dist-packages (from rioxarray) (2023.7.0)
+Requirement already satisfied: pyproj&gt;=3.3 in /usr/local/lib/python3.10/dist-packages (from rioxarray) (3.6.1)
+Requirement already satisfied: numpy&gt;=1.23 in /usr/local/lib/python3.10/dist-packages (from rioxarray) (1.25.2)
+Requirement already satisfied: certifi in /usr/local/lib/python3.10/dist-packages (from pyproj&gt;=3.3-&gt;rioxarray) (2024.2.2)
+Requirement already satisfied: affine in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (2.4.0)
+Requirement already satisfied: attrs in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (23.2.0)
+Requirement already satisfied: click&gt;=4.0 in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (8.1.7)
+Requirement already satisfied: cligj&gt;=0.5 in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (0.7.2)
+Requirement already satisfied: snuggs&gt;=1.4.1 in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (1.4.7)
+Requirement already satisfied: click-plugins in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (1.1.1)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.10/dist-packages (from rasterio&gt;=1.3-&gt;rioxarray) (67.7.2)
+Requirement already satisfied: pandas&gt;=1.4 in /usr/local/lib/python3.10/dist-packages (from xarray&gt;=2022.3.0-&gt;rioxarray) (1.5.3)
+Requirement already satisfied: python-dateutil&gt;=2.8.1 in /usr/local/lib/python3.10/dist-packages (from pandas&gt;=1.4-&gt;xarray&gt;=2022.3.0-&gt;rioxarray) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas&gt;=1.4-&gt;xarray&gt;=2022.3.0-&gt;rioxarray) (2023.4)
+Requirement already satisfied: pyparsing&gt;=2.1.6 in /usr/local/lib/python3.10/dist-packages (from snuggs&gt;=1.4.1-&gt;rasterio&gt;=1.3-&gt;rioxarray) (3.1.1)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil&gt;=2.8.1-&gt;pandas&gt;=1.4-&gt;xarray&gt;=2022.3.0-&gt;rioxarray) (1.16.0)
+Installing collected packages: rioxarray
+Successfully installed rioxarray-0.15.1
+Collecting pysal
+  Downloading pysal-24.1-py3-none-any.whl (17 kB)
+Collecting libpysal&gt;=4.6.2 (from pysal)
+  Downloading libpysal-4.9.2-py3-none-any.whl (2.8 MB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m2.8/2.8 MB[0m [31m13.3 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting access&gt;=1.1.8 (from pysal)
+  Downloading access-1.1.9-py3-none-any.whl (21 kB)
+Collecting esda&gt;=2.4.1 (from pysal)
+  Downloading esda-2.5.1-py3-none-any.whl (132 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m132.4/132.4 kB[0m [31m15.3 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting giddy&gt;=2.3.3 (from pysal)
+  Downloading giddy-2.3.5-py3-none-any.whl (61 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m61.1/61.1 kB[0m [31m8.1 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting inequality&gt;=1.0.0 (from pysal)
+  Downloading inequality-1.0.1-py3-none-any.whl (15 kB)
+Collecting pointpats&gt;=2.2.0 (from pysal)
+  Downloading pointpats-2.4.0-py3-none-any.whl (58 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m58.4/58.4 kB[0m [31m7.7 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting segregation&gt;=2.3.1 (from pysal)
+  Downloading segregation-2.5-py3-none-any.whl (141 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m141.3/141.3 kB[0m [31m19.9 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting spaghetti&gt;=1.6.6 (from pysal)
+  Downloading spaghetti-1.7.5.post1-py3-none-any.whl (54 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m54.1/54.1 kB[0m [31m7.3 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting mgwr&gt;=2.1.2 (from pysal)
+  Downloading mgwr-2.2.1-py3-none-any.whl (47 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m47.9/47.9 kB[0m [31m6.5 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting momepy&gt;=0.5.3 (from pysal)
+  Downloading momepy-0.7.0-py3-none-any.whl (277 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m277.8/277.8 kB[0m [31m29.8 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting spglm&gt;=1.0.8 (from pysal)
+  Downloading spglm-1.1.0-py3-none-any.whl (41 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m41.4/41.4 kB[0m [31m4.4 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting spint&gt;=1.0.7 (from pysal)
+  Downloading spint-1.0.7.tar.gz (28 kB)
+  Preparing metadata (setup.py) ... [?25l[?25hdone
+Collecting spreg&gt;=1.2.4 (from pysal)
+  Downloading spreg-1.4.2-py3-none-any.whl (331 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m331.8/331.8 kB[0m [31m28.7 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting spvcm&gt;=0.3.0 (from pysal)
+  Downloading spvcm-0.3.0.tar.gz (5.7 MB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m5.7/5.7 MB[0m [31m54.5 MB/s[0m eta [36m0:00:00[0m
+[?25h  Preparing metadata (setup.py) ... [?25l[?25hdone
+Collecting tobler&gt;=0.8.2 (from pysal)
+  Downloading tobler-0.11.2-py3-none-any.whl (34 kB)
+Collecting mapclassify&gt;=2.4.3 (from pysal)
+  Downloading mapclassify-2.6.1-py3-none-any.whl (38 kB)
+Collecting splot&gt;=1.1.5.post1 (from pysal)
+  Downloading splot-1.1.5.post1-py3-none-any.whl (39 kB)
+Collecting spopt&gt;=0.4.1 (from pysal)
+  Downloading spopt-0.6.0-py3-none-any.whl (244 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m244.5/244.5 kB[0m [31m26.4 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: geopandas in /usr/local/lib/python3.10/dist-packages (from access&gt;=1.1.8-&gt;pysal) (0.13.2)
+Requirement already satisfied: numpy&gt;=1.3 in /usr/local/lib/python3.10/dist-packages (from access&gt;=1.1.8-&gt;pysal) (1.25.2)
+Requirement already satisfied: pandas&gt;=0.23.4 in /usr/local/lib/python3.10/dist-packages (from access&gt;=1.1.8-&gt;pysal) (1.5.3)
+Requirement already satisfied: requests&gt;=2 in /usr/local/lib/python3.10/dist-packages (from access&gt;=1.1.8-&gt;pysal) (2.31.0)
+Requirement already satisfied: scikit-learn&gt;=1.0 in /usr/local/lib/python3.10/dist-packages (from esda&gt;=2.4.1-&gt;pysal) (1.2.2)
+Requirement already satisfied: scipy&gt;=1.9 in /usr/local/lib/python3.10/dist-packages (from esda&gt;=2.4.1-&gt;pysal) (1.11.4)
+Collecting quantecon&gt;=0.4.7 (from giddy&gt;=2.3.3-&gt;pysal)
+  Downloading quantecon-0.7.1-py3-none-any.whl (214 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m214.8/214.8 kB[0m [31m16.4 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: beautifulsoup4&gt;=4.10 in /usr/local/lib/python3.10/dist-packages (from libpysal&gt;=4.6.2-&gt;pysal) (4.12.3)
+Requirement already satisfied: packaging&gt;=22 in /usr/local/lib/python3.10/dist-packages (from libpysal&gt;=4.6.2-&gt;pysal) (23.2)
+Requirement already satisfied: platformdirs&gt;=2.0.2 in /usr/local/lib/python3.10/dist-packages (from libpysal&gt;=4.6.2-&gt;pysal) (4.2.0)
+Requirement already satisfied: shapely&gt;=2.0.1 in /usr/local/lib/python3.10/dist-packages (from libpysal&gt;=4.6.2-&gt;pysal) (2.0.3)
+Requirement already satisfied: networkx&gt;=2.7 in /usr/local/lib/python3.10/dist-packages (from mapclassify&gt;=2.4.3-&gt;pysal) (3.2.1)
+Requirement already satisfied: tqdm&gt;=4.63.0 in /usr/local/lib/python3.10/dist-packages (from momepy&gt;=0.5.3-&gt;pysal) (4.66.2)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.10/dist-packages (from pointpats&gt;=2.2.0-&gt;pysal) (3.7.1)
+Collecting deprecation (from segregation&gt;=2.3.1-&gt;pysal)
+  Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from segregation&gt;=2.3.1-&gt;pysal) (1.3.2)
+Requirement already satisfied: seaborn in /usr/local/lib/python3.10/dist-packages (from segregation&gt;=2.3.1-&gt;pysal) (0.13.1)
+Requirement already satisfied: numba in /usr/local/lib/python3.10/dist-packages (from segregation&gt;=2.3.1-&gt;pysal) (0.58.1)
+Requirement already satisfied: pyproj&gt;=3 in /usr/local/lib/python3.10/dist-packages (from segregation&gt;=2.3.1-&gt;pysal) (3.6.1)
+Collecting rtree&gt;=1.0 (from spaghetti&gt;=1.6.6-&gt;pysal)
+  Downloading Rtree-1.2.0-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (535 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m535.2/535.2 kB[0m [31m43.0 MB/s[0m eta [36m0:00:00[0m
+[?25hCollecting pulp&gt;=2.7 (from spopt&gt;=0.4.1-&gt;pysal)
+  Downloading PuLP-2.8.0-py3-none-any.whl (17.7 MB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m17.7/17.7 MB[0m [31m34.3 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: rasterio in /usr/local/lib/python3.10/dist-packages (from tobler&gt;=0.8.2-&gt;pysal) (1.3.9)
+Requirement already satisfied: statsmodels in /usr/local/lib/python3.10/dist-packages (from tobler&gt;=0.8.2-&gt;pysal) (0.14.1)
+Collecting rasterstats (from tobler&gt;=0.8.2-&gt;pysal)
+  Downloading rasterstats-0.19.0-py3-none-any.whl (16 kB)
+Requirement already satisfied: soupsieve&gt;1.2 in /usr/local/lib/python3.10/dist-packages (from beautifulsoup4&gt;=4.10-&gt;libpysal&gt;=4.6.2-&gt;pysal) (2.5)
+Requirement already satisfied: fiona&gt;=1.8.19 in /usr/local/lib/python3.10/dist-packages (from geopandas-&gt;access&gt;=1.1.8-&gt;pysal) (1.9.5)
+Requirement already satisfied: python-dateutil&gt;=2.8.1 in /usr/local/lib/python3.10/dist-packages (from pandas&gt;=0.23.4-&gt;access&gt;=1.1.8-&gt;pysal) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas&gt;=0.23.4-&gt;access&gt;=1.1.8-&gt;pysal) (2023.4)
+Requirement already satisfied: certifi in /usr/local/lib/python3.10/dist-packages (from pyproj&gt;=3-&gt;segregation&gt;=2.3.1-&gt;pysal) (2024.2.2)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from quantecon&gt;=0.4.7-&gt;giddy&gt;=2.3.3-&gt;pysal) (1.12)
+Requirement already satisfied: llvmlite&lt;0.42,&gt;=0.41.0dev0 in /usr/local/lib/python3.10/dist-packages (from numba-&gt;segregation&gt;=2.3.1-&gt;pysal) (0.41.1)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests&gt;=2-&gt;access&gt;=1.1.8-&gt;pysal) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests&gt;=2-&gt;access&gt;=1.1.8-&gt;pysal) (3.6)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests&gt;=2-&gt;access&gt;=1.1.8-&gt;pysal) (2.0.7)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.10/dist-packages (from scikit-learn&gt;=1.0-&gt;esda&gt;=2.4.1-&gt;pysal) (3.3.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (4.49.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (1.4.5)
+Requirement already satisfied: pillow&gt;=6.2.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (9.4.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib-&gt;pointpats&gt;=2.2.0-&gt;pysal) (3.1.1)
+Requirement already satisfied: affine in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (2.4.0)
+Requirement already satisfied: attrs in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (23.2.0)
+Requirement already satisfied: click&gt;=4.0 in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (8.1.7)
+Requirement already satisfied: cligj&gt;=0.5 in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (0.7.2)
+Requirement already satisfied: snuggs&gt;=1.4.1 in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (1.4.7)
+Requirement already satisfied: click-plugins in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (1.1.1)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.10/dist-packages (from rasterio-&gt;tobler&gt;=0.8.2-&gt;pysal) (67.7.2)
+Collecting simplejson (from rasterstats-&gt;tobler&gt;=0.8.2-&gt;pysal)
+  Downloading simplejson-3.19.2-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (137 kB)
+[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m137.9/137.9 kB[0m [31m13.8 MB/s[0m eta [36m0:00:00[0m
+[?25hRequirement already satisfied: patsy&gt;=0.5.4 in /usr/local/lib/python3.10/dist-packages (from statsmodels-&gt;tobler&gt;=0.8.2-&gt;pysal) (0.5.6)
+Requirement already satisfied: six in /usr/local/lib/python3.10/dist-packages (from fiona&gt;=1.8.19-&gt;geopandas-&gt;access&gt;=1.1.8-&gt;pysal) (1.16.0)
+Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;quantecon&gt;=0.4.7-&gt;giddy&gt;=2.3.3-&gt;pysal) (1.3.0)
+Building wheels for collected packages: spint, spvcm
+  Building wheel for spint (setup.py) ... [?25l[?25hdone
+  Created wheel for spint: filename=spint-1.0.7-py3-none-any.whl size=31359 sha256=e6e02e36fc4afba4900df269f6700ee2b68abcd15d0e923a3a31ef8c6337fb2e
+  Stored in directory: /root/.cache/pip/wheels/f6/1d/ab/81b0c9d17a778a97ec078147cb11901afdab420c4894dcfbc5
+  Building wheel for spvcm (setup.py) ... [?25l[?25hdone
+  Created wheel for spvcm: filename=spvcm-0.3.0-py3-none-any.whl size=5777183 sha256=9da2742a656842583e971bb16a79c13c78227fe6c8a723e94ac1f3db57e42b1b
+  Stored in directory: /root/.cache/pip/wheels/1c/58/6f/debcb62c0a142a6615a65f23217209b543b478d309edfa4e2b
+Successfully built spint spvcm
+Installing collected packages: simplejson, rtree, pulp, deprecation, quantecon, rasterstats, mapclassify, libpysal, access, tobler, spreg, segregation, pointpats, momepy, inequality, esda, spvcm, spglm, spaghetti, giddy, spopt, splot, spint, mgwr, pysal
+Successfully installed access-1.1.9 deprecation-2.1.0 esda-2.5.1 giddy-2.3.5 inequality-1.0.1 libpysal-4.9.2 mapclassify-2.6.1 mgwr-2.2.1 momepy-0.7.0 pointpats-2.4.0 pulp-2.8.0 pysal-24.1 quantecon-0.7.1 rasterstats-0.19.0 rtree-1.2.0 segregation-2.5 simplejson-3.19.2 spaghetti-1.7.5.post1 spglm-1.1.0 spint-1.0.7 splot-1.1.5.post1 spopt-0.6.0 spreg-1.4.2 spvcm-0.3.0 tobler-0.11.2
+</code></pre>
+<h2 id="spatial-weights">Spatial weights</h2>
+<h3 id="contiguity-weights">Contiguity weights</h3>
+<p>Criando poligonos</p>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>id</th>
+      <th>past_value</th>
+      <th>present_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....</td>
+      <td>0019</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....</td>
+      <td>0119</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....</td>
+      <td>0219</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....</td>
+      <td>0319</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>POLYGON ((4.00000 0.00000, 5.00000 0.00000, 5....</td>
+      <td>0419</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>POLYGON ((15.00000 19.00000, 16.00000 19.00000...</td>
+      <td>1500</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>POLYGON ((16.00000 19.00000, 17.00000 19.00000...</td>
+      <td>1600</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>POLYGON ((17.00000 19.00000, 18.00000 19.00000...</td>
+      <td>1700</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>POLYGON ((18.00000 19.00000, 19.00000 19.00000...</td>
+      <td>1800</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>POLYGON ((19.00000 19.00000, 20.00000 19.00000...</td>
+      <td>1900</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 4 columns</p>
+</div>
+
+<pre><code>['0003', '0103', '0203', '0002', '0102', '0202', '0001', '0101', '0201']
+
+
+
+
+
+
+0      POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....
+1      POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....
+2      POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....
+3      POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....
+4      POLYGON ((4.00000 0.00000, 5.00000 0.00000, 5....
+                             ...                        
+395    POLYGON ((15.00000 19.00000, 16.00000 19.00000...
+396    POLYGON ((16.00000 19.00000, 17.00000 19.00000...
+397    POLYGON ((17.00000 19.00000, 18.00000 19.00000...
+398    POLYGON ((18.00000 19.00000, 19.00000 19.00000...
+399    POLYGON ((19.00000 19.00000, 20.00000 19.00000...
+Length: 400, dtype: geometry
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>past_value</th>
+      <th>present_value</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0019</th>
+      <td>POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>0119</th>
+      <td>POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>0219</th>
+      <td>POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>0319</th>
+      <td>POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>0419</th>
+      <td>POLYGON ((4.00000 0.00000, 5.00000 0.00000, 5....</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1500</th>
+      <td>POLYGON ((15.00000 19.00000, 16.00000 19.00000...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1600</th>
+      <td>POLYGON ((16.00000 19.00000, 17.00000 19.00000...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1700</th>
+      <td>POLYGON ((17.00000 19.00000, 18.00000 19.00000...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1800</th>
+      <td>POLYGON ((18.00000 19.00000, 19.00000 19.00000...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1900</th>
+      <td>POLYGON ((19.00000 19.00000, 20.00000 19.00000...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 3 columns</p>
+</div>
+
+<pre><code>&lt;Axes: &gt;
+</code></pre>
+<p><img alt="png" src="../gameoflife_files/gameoflife_13_1.png" /></p>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>past_value</th>
+      <th>present_value</th>
+      <th>value</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0019</th>
+      <td>POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0119</th>
+      <td>POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0219</th>
+      <td>POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0319</th>
+      <td>POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0419</th>
+      <td>POLYGON ((4.00000 0.00000, 5.00000 0.00000, 5....</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1700</th>
+      <td>POLYGON ((17.00000 19.00000, 18.00000 19.00000...</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1800</th>
+      <td>POLYGON ((18.00000 19.00000, 19.00000 19.00000...</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1900</th>
+      <td>POLYGON ((19.00000 19.00000, 20.00000 19.00000...</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>None</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>None</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>402 rows × 4 columns</p>
+</div>
+
+<pre><code>id
+0019    POLYGON ((0.00000 0.00000, 1.00000 0.00000, 1....
+0119    POLYGON ((1.00000 0.00000, 2.00000 0.00000, 2....
+0219    POLYGON ((2.00000 0.00000, 3.00000 0.00000, 3....
+0319    POLYGON ((3.00000 0.00000, 4.00000 0.00000, 4....
+0419    POLYGON ((4.00000 0.00000, 5.00000 0.00000, 5....
+                              ...                        
+1700    POLYGON ((17.00000 19.00000, 18.00000 19.00000...
+1800    POLYGON ((18.00000 19.00000, 19.00000 19.00000...
+1900    POLYGON ((19.00000 19.00000, 20.00000 19.00000...
+33                                                   None
+0                                                    None
+Name: geometry, Length: 402, dtype: geometry
+
+
+
+
+
+
+(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;Axes: &gt;)
+</code></pre>
+<p><img alt="png" src="../gameoflife_files/gameoflife_17_1.png" /></p>
+<p>Veja em https://pysal.org/notebooks/lib/libpysal/weights.html</p>
+<pre><code>400
+
+
+
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0000 ['0101', '0100', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0101 ['0201', '0202', '0200', '0100', '0000', '0102', '0002', '0001']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0202 ['0101', '0201', '0203', '0301', '0303', '0302', '0102', '0103']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0303 ['0203', '0202', '0402', '0304', '0302', '0204', '0404', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0404 ['0504', '0304', '0505', '0303', '0405', '0503', '0305', '0403']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0505 ['0605', '0504', '0604', '0405', '0606', '0406', '0404', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0606 ['0507', '0705', '0707', '0605', '0706', '0505', '0607', '0506']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0707 ['0808', '0806', '0807', '0708', '0706', '0606', '0608', '0607']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0808 ['0809', '0707', '0807', '0709', '0708', '0907', '0909', '0908']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+0909 ['0809', '0808', '0910', '1010', '1009', '1008', '0908', '0810']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1010 ['0911', '1109', '0910', '1009', '1011', '0909', '1111', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1111 ['1210', '1212', '1010', '1211', '1011', '1012', '1112', '1110']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1212 ['1313', '1211', '1112', '1312', '1311', '1113', '1213', '1111']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1313 ['1412', '1314', '1212', '1214', '1312', '1413', '1213', '1414']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1414 ['1314', '1513', '1313', '1514', '1415', '1413', '1315', '1515']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1515 ['1615', '1516', '1616', '1514', '1415', '1416', '1414', '1614']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1616 ['1615', '1715', '1617', '1516', '1515', '1517', '1717', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1717 ['1816', '1818', '1718', '1617', '1616', '1618', '1817', '1716']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1818 ['1918', '1718', '1919', '1917', '1719', '1819', '1817', '1717']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+1919 ['1819', '1918', '1818']
+
+
+
+
+
+[(3, 4), (4, 0), (5, 72), (6, 0), (7, 0), (8, 324)]
+
+
+
+
+
+
+2
+
+
+
+
+
+
+0
+</code></pre>
+<p><img alt="png" src="../gameoflife_files/gameoflife_30_0.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_0.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_1.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_2.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_3.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_4.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_5.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_6.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_7.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_8.png" /></p>
+<p><img alt="png" src="../gameoflife_files/gameoflife_31_9.png" /></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>
